@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# ==========================================
+#  COLOR DEFINITIONS
+# ==========================================
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+CYAN="\e[36m"
+WHITE="\e[1;37m"
+NC="\e[0m"
+
+clear
+
+# ==========================================
+#  BANNER LOGO DESIGN
+# ==========================================
+echo -e "${CYAN}╔══════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║${NC}\e[1;33m          ⚡ SSLAB UDP PANEL V2.0 ⚡         \e[0m${CYAN}║${NC}"
+echo -e "${CYAN}╚══════════════════════════════════════════════╝${NC}"
+echo ""
+
+echo -e "${GREEN}==================================================${NC}"
+echo -e " \033[1;36m               📋 เมนูจัดการระบบหลัก            \033[0m"
+echo -e "${GREEN}==================================================${NC}"
+echo -e " ${WHITE} [1]${NC} ➔ เพิ่มผู้ใช้งานใหม่"
+echo -e " ${WHITE} [2]${NC} ➔ แสดงผู้ใช้งานทั้งหมด"
+echo -e " ${WHITE} [3]${NC} ➔ แก้ไขข้อมูลผู้ใช้งาน"
+echo -e " ${WHITE} [4]${NC} ➔ ลบผู้ใช้งาน"
+echo -e " ${WHITE} [5]${NC} ➔ เช็กสถานะผู้ใช้งาน (วันหมดอายุ)"
+echo -e " ${WHITE} [6]${NC} ➔ เช็กปริมาณเน็ตที่ใช้ (GB/MB)"
+echo -e " ${WHITE} [7]${NC} ➔ ข้อมูลเซิร์ฟเวอร์"
+echo -e " ${WHITE} [8]${NC} ➔ บล็อกบิททอร์เรนต์"
+echo -e " ${WHITE} [9]${NC} ➔ ลบสคริปต์ติดตั้ง"
+echo -e " ${WHITE}[10]${NC} ➔ เกี่ยวกับระบบ"
+echo -e " ${WHITE}[11]${NC} ➔ รีสตาร์ทระบบ"
+echo -e " ${WHITE} [0]${NC} ➔ ออกจากเมนู"
+echo -e "${GREEN}==================================================${NC}"
+echo ""
+echo -ne "${CYAN} • เลือกเมนูที่คุณต้องการใช้งาน [0-11] : ${NC}"
+read option
+
+case $option in
+    1) cd /etc/Sslablk/system && ./Adduser.sh ;;
+    2) cd /etc/Sslablk/system && ./Userlist.sh ;;
+    3) cd /etc/Sslablk/system && ./ChangeUser.sh ;;
+    4) cd /etc/Sslablk/system && ./DelUser.sh ;;
+    5) cd /etc/Sslablk/system && ./infousers ;;
+    6) cd /etc/Sslablk/system && ./UserUsage.sh ;;
+    7) neofetch ;;
+    8) cd /etc/Sslablk/system && ./torrent.sh ;;
+    9) cd /etc/Sslablk/system && ./RemoveScript.sh ;;
+    10) 
+        clear
+        echo -e "${CYAN}╔══════════════════════════════════════════════╗${NC}"
+        echo -e "${CYAN}║${NC}\e[1;33m             ★ ABOUT SSLAB SYSTEM ★           \e[0m${CYAN}║${NC}"
+        echo -e "${CYAN}╚══════════════════════════════════════════════╝${NC}"
+        echo ""
+        echo -e " ${WHITE}• สคริปต์นี้พัฒนาและปรับปรุงระบบเมนูภาษาไทยโดย${NC}"
+        echo -e " ${GREEN}• ทีมงาน SSLAB & Modified by tewnono1${NC}"
+        echo -e " ${WHITE}• ขอขอบคุณสำหรับการใช้งานระบบของเราครับ!${NC}"
+        echo ""
+        echo -e "${GREEN}==================================================${NC}"
+        echo -ne "${CYAN} กด Enter เพื่อกลับไปที่เมนูหลัก...${NC}"
+        read && menu 
+        ;;
+    11) 
+        echo -e "\n${YELLOW} [!] กำลังรีสตาร์ทระบบ กรุณารอสักครู่...${NC}"
+        sleep 2
+        reboot 
+        ;;
+    0) 
+        echo -e "\n${GREEN} ออกจากโปรแกรมเรียบร้อยแล้ว ขอบคุณครับ!${NC}"
+        exit 
+        ;;
+    *) 
+        echo -e "\n${RED} [✘] ข้อผิดพลาด: เลือกเมนูไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง!${NC}"
+        sleep 1.5 
+        menu 
+        ;;
+esac
