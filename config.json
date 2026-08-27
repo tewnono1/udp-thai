@@ -1,0 +1,10 @@
+{
+  "listen": ":80",
+  "stream_buffer": 33554432,
+  "receive_buffer": 33554432,
+  "write_buffer": 33554432,
+  "mtu": 1350,
+  "auth": {
+    "mode": "passwords"
+  }
+}
