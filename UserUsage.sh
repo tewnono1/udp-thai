@@ -1,15 +1,5 @@
 #!/bin/bash
 
-# ==========================================
-#  COLOR DEFINITIONS
-# ==========================================
-RED="\e[31m"
-GREEN="\e[32m"
-YELLOW="\e[33m"
-CYAN="\e[36m"
-WHITE="\e[1;37m"
-NC="\e[0m"
-
 # ตรวจสอบสิทธิ์ Root
 if [ "$EUID" -ne 0 ]; then
     exec sudo bash "$0" "$@"
@@ -19,18 +9,13 @@ fi
 clear
 
 # ==========================================
-#  BANNER LOGO DESIGN
+#  HEADER BANNER (Plain Style)
 # ==========================================
-echo -e "${CYAN}╔══════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║${NC}\e[1;33m         ⚡ SSLAB USER TRAFFIC USAGE ⚡       \e[0m${CYAN}║${NC}"
-echo -e "${CYAN}╚══════════════════════════════════════════════╝${NC}"
-echo ""
-
-echo -e "${GREEN}==================================================${NC}"
-echo -e " \033[1;36m           📊 รายงานปริมาณการใช้งาน (UDP)        \033[0m"
-echo -e "${GREEN}==================================================${NC}"
-printf " ${WHITE}%-18s${NC} | ${WHITE}%-25s${NC}\n" " ชื่อผู้ใช้ (User)" " ปริมาณเน็ตที่ใช้ (Usage)"
-echo -e "${GREEN}==================================================${NC}"
+echo "=================================================="
+echo "          รายงานปริมาณการใช้งาน (UDP)         "
+echo "=================================================="
+printf " %-18s | %-25s\n" " ชื่อผู้ใช้ (User)" " ปริมาณเน็ตที่ใช้ (Usage)"
+echo "=================================================="
 
 # กำหนดไฟล์เก็บข้อมูลทราฟฟิกชั่วคราว
 TEMP_STATS="/tmp/udp_stats.txt"
@@ -54,27 +39,27 @@ while read -r user; do
 
         # แสดงผลลัพธ์
         if [ -z "$bytes" ] || [ "$bytes" -eq 0 ]; then
-            usage_display="\e[0;37m0 KB (ยังไม่มีทราฟฟิก)\e[0m"
+            usage_display="0 KB (ยังไม่มีทราฟฟิก)"
         else
             # แปลงสถิติเป็นหน่วย MB หรือ GB
             if [ "$bytes" -gt 1073741824 ]; then
                 gb=$(echo "scale=2; $bytes / 1073741824" | bc)
-                usage_display="${GREEN}${gb} GB${NC}"
+                usage_display="${gb} GB"
             elif [ "$bytes" -gt 1048576 ]; then
                 mb=$(echo "scale=2; $bytes / 1048576" | bc)
-                usage_display="${YELLOW}${mb} MB${NC}"
+                usage_display="${mb} MB"
             else
                 kb=$(echo "scale=2; $bytes / 1024" | bc)
-                usage_display="${CYAN}${kb} KB${NC}"
+                usage_display="${kb} KB"
             fi
         fi
         
-        printf " ${WHITE}%-18s${NC} | %-25b\n" " $user" "$usage_display"
+        printf " %-18s | %-25s\n" " $user" "$usage_display"
     fi
 done < <(cut -d: -f1 /etc/passwd)
 
 rm -f "$TEMP_STATS"
-echo -e "${GREEN}==================================================${NC}"
+echo "=================================================="
 echo ""
-echo -ne "${CYAN} กด Enter เพื่อกลับไปที่เมนูหลัก...${NC}"; read -r
+echo -n " กด Enter เพื่อกลับไปที่เมนูหลัก..."; read -r
 menu
